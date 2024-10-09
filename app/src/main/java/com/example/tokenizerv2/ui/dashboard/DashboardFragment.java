@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tokenizerv2.CardSearch;
 import com.example.tokenizerv2.R;
@@ -22,7 +23,7 @@ public class DashboardFragment extends Fragment {
 
     private EditText searchEditText;
     private Button searchButton;
-    private TextView resultTextView;
+    private RecyclerView cardRecyclerView;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -38,11 +39,11 @@ public class DashboardFragment extends Fragment {
 
         searchEditText = binding.searchEditText;
         searchButton = binding.searchButton;
-        resultTextView = binding.resultTextView;
+        cardRecyclerView = binding.cardRecyclerView;
 
         searchButton.setOnClickListener(v -> {
             String query = searchEditText.getText().toString();
-            CardSearch cs = new CardSearch(resultTextView);
+            CardSearch cs = new CardSearch(cardRecyclerView);
 
             new CardSearch.FetchCardDataTask().execute(query);
         });

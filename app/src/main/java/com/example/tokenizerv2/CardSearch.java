@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,11 +16,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.BreakIterator;
-
+import java.util.ArrayList;
 public class CardSearch extends Fragment {
-    private static TextView resultTextView;
-    public CardSearch(TextView resultTextView){
-        CardSearch.resultTextView = resultTextView;
+    private static RecyclerView cardRecyclerView;
+    public CardSearch(RecyclerView cardRecyclerView){
+        CardSearch.cardRecyclerView = cardRecyclerView;
     }
     public static class FetchCardDataTask extends AsyncTask<String, Void, String> {
 
@@ -52,17 +54,24 @@ public class CardSearch extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 JSONArray dataArray = jsonObject.getJSONArray("data");
+                ArrayList<Card> cards = new ArrayList<>();
 
-                StringBuilder displayText = new StringBuilder("Card names found:\n");
+                StringBuilder displayText = new StringBuilder("com.example.tokenizerv2.Card names found:\n");
                 for (int i = 0; i < dataArray.length(); i++) {
                     JSONObject card = dataArray.getJSONObject(i);
                     String name = card.getString("name");
                     displayText.append("- ").append(name).append("\n");
+                    String imageUrl = card.getJSONObject("image_uris").getString("small");
+                    cards.add(new Card(name, imageUrl));
+
                 }
 
-                resultTextView.setText(displayText.toString());
+                CardAdapter cardAdapter = new CardAdapter(cards);
+                RecyclerView recyclerView = cardRecyclerView;
+                recyclerView.setLayoutManager(new LinearLayoutManager(cardRecyclerView.getContext()));
+                recyclerView.setAdapter(cardAdapter);
             } catch (JSONException e) {
-                resultTextView.setText("Error parsing JSON: " + e.getMessage());
+                e.printStackTrace();
             }            }
     }
 }
