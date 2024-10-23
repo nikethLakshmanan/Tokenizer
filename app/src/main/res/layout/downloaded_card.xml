@@ -7,7 +7,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/cardImageView"
+        android:id="@+id/downloadedCardImageView"
         android:layout_width="100dp"
         android:layout_height="140dp"
         android:scaleType="centerCrop" />
@@ -21,7 +21,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/cardNameTextView"
+            android:id="@+id/downloadedCardNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
@@ -29,45 +29,21 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/cardDescTextView"
+            android:id="@+id/downloadedByteArray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:fontFamily="@font/montserrat"
-            android:text="TextView"
             android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/cardPowerTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Power: "
-            android:textColor="@color/white"
-
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/cardToughnessTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat"
-            android:text="TextView"
-            android:textColor="@color/white"
-
-            android:textSize="12sp" />
 
         <Button
-            android:id="@+id/downloadButton"
+            android:id="@+id/exportButton"
             android:layout_width="152dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:text="Download" />
+            android:text="Export" />
 
 
     </LinearLayout>

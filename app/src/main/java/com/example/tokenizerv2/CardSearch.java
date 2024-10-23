@@ -38,7 +38,6 @@ public class CardSearch extends Fragment {
                 StringBuilder response = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
                     response.append(line);
                 }
                 reader.close();

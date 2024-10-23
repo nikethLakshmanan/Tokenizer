@@ -7,10 +7,9 @@ public class Card {
     private String power;
     private String toughness;
     private String imageUrl;
-
-
-
     private Bitmap image;
+    private byte[] imageByteArray;
+
 
     public Card(String name, String imageUrl, String description, String power, String toughness) {
         this.name = name;
@@ -46,4 +45,13 @@ public class Card {
     public Bitmap getImage() {
         return image;
     }
+    public void setImageByteArray(byte[] imageByteArray) {
+        this.imageByteArray = imageByteArray;
+    }
+
+    public byte[] getImageByteArray() {
+        return imageByteArray;
+    }
+
+
 }
