@@ -8,18 +8,21 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.tokenizerv2.ui.home.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        android:label="Tokenizer v2"
+        android:fontFamily="sans-serif-condensed"
+    tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.tokenizerv2.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="Tokenizer v2"
+        android:fontFamily="sans-serif-condensed"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.tokenizerv2.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="Tokenizer v2"
+        android:fontFamily="sans-serif-condensed"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

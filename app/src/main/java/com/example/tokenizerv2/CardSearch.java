@@ -61,8 +61,16 @@ public class CardSearch extends Fragment {
                     JSONObject card = dataArray.getJSONObject(i);
                     String name = card.getString("name");
                     displayText.append("- ").append(name).append("\n");
-                    String imageUrl = card.getJSONObject("image_uris").getString("small");
-                    cards.add(new Card(name, imageUrl));
+                    String imageUrl = card.getJSONObject("image_uris").getString("large");
+                    String description = card.getString("type_line");
+                    String power = "N/A";
+                    String toughness = "N/A";
+                    if(description.toLowerCase().contains("creature")){
+                        power = card.getString("power");
+                        toughness = card.getString("toughness");
+                    }
+
+                    cards.add(new Card(name, imageUrl, description, power, toughness));
 
                 }
 

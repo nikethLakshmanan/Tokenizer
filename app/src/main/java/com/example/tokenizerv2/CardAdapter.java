@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
@@ -28,6 +30,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         Card card = cards.get(position);
         holder.cardNameTextView.setText(card.getName());
+        holder.cardDescTextView.setText(card.getDescription());
+        holder.cardPowerTextView.setText(card.getPower());
+        holder.cardToughnessTextView.setText(card.getToughness());
         if (card.getImage() != null) {
             holder.cardImageView.setImageBitmap(card.getImage());
         } else {
@@ -44,11 +49,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     static class CardViewHolder extends RecyclerView.ViewHolder {
         ImageView cardImageView;
         TextView cardNameTextView;
+        TextView cardDescTextView;
+        TextView cardPowerTextView;
+        TextView cardToughnessTextView;
 
         CardViewHolder(View itemView) {
             super(itemView);
             cardImageView = itemView.findViewById(R.id.cardImageView);
             cardNameTextView = itemView.findViewById(R.id.cardNameTextView);
+            cardDescTextView = itemView.findViewById(R.id.cardDescTextView);
+            cardPowerTextView = itemView.findViewById(R.id.cardPowerTextView);
+            cardToughnessTextView = itemView.findViewById(R.id.cardToughnessTextView);
         }
     }
 }
