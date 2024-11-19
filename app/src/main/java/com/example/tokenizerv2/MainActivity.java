@@ -1,6 +1,13 @@
 package com.example.tokenizerv2;
 
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+import android.content.Context;
+import android.content.Intent;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +16,7 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,7 +38,23 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
-
+    // BroadcastReceiver for handling USB permission responses
+    private final BroadcastReceiver usbReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if ("com.example.USB_PERMISSION".equals(action)) {
+                UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false) && device != null) {
+                    // Call method to transfer data
+                   // transferDataToUsbDevice((UsbManager) context.getSystemService(Context.USB_SERVICE), device, card);
+                    System.out.println("Permission granted for device " + device);
+                } else {
+                    System.out.println("Permission denied for device " + device);
+                }
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +73,23 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-    }
+        // Register new USB device
+        IntentFilter filter = new IntentFilter("com.example.USB_PERMISSION");
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // For Android 12 (API 31) and above, use RECEIVER_EXPORTED flag
+            registerReceiver(usbReceiver, filter, Context.RECEIVER_EXPORTED);
+        } else {
+            // For devices below Android 12, register without the export flag
+           // registerReceiver(usbReceiver, filter);
+        }
 
+
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the USB BroadcastReceiver
+        unregisterReceiver(usbReceiver);
+    }
 }
 

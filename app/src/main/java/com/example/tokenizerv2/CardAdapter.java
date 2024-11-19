@@ -64,8 +64,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
             }).start();
 
-        });
 
+        });
     }
 
     @Override
@@ -80,7 +80,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView cardPowerTextView;
         TextView cardToughnessTextView;
         Button downloadButton;
-
         CardViewHolder(View itemView) {
             super(itemView);
             cardImageView = itemView.findViewById(R.id.cardImageView);
@@ -89,6 +88,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             cardPowerTextView = itemView.findViewById(R.id.cardPowerTextView);
             cardToughnessTextView = itemView.findViewById(R.id.cardToughnessTextView);
             downloadButton = itemView.findViewById(R.id.downloadButton);
+
         }
     }
 }

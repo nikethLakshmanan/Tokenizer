@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Tokenizer v2"
 include(":app")
- 
