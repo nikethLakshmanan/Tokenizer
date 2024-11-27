@@ -71,7 +71,7 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
             // debugging purposes
             UsbDeviceConnection connection = null;
             UsbSerialDriver driver = availableDrivers.get(0);
-            PendingIntent usbPermissionIntent = PendingIntent.getBroadcast(v.getContext(), 0, new Intent("com.example.USB_PERMISSION"), PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent usbPermissionIntent = PendingIntent.getBroadcast(v.getContext(), 0, new Intent("com.example.USB_PERMISSION"), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             manager.requestPermission(driver.getDevice(), usbPermissionIntent);
             try{
@@ -96,7 +96,7 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
             }
             Toast.makeText(v.getContext(), "Connection Established", Toast.LENGTH_SHORT).show();
             try {
-                port.write("hello".getBytes(), 10000);
+                port.write(card.getImageByteArray(), 10000);
             } catch (IOException e) {
                 Toast.makeText(v.getContext(), " Port Write Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
