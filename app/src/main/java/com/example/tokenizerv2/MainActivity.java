@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,14 +44,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+
             if ("com.example.USB_PERMISSION".equals(action)) {
-                UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-                if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false) && device != null) {
-                    // Call method to transfer data
-                   // transferDataToUsbDevice((UsbManager) context.getSystemService(Context.USB_SERVICE), device, card);
-                    System.out.println("Permission granted for device " + device);
-                } else {
-                    System.out.println("Permission denied for device " + device);
+                synchronized (this) {
+                    UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                    if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                        // Call method to transfer data
+                        System.out.println("Permission granted for device " + device);
+                    } else {
+                        System.out.println("Permission denied for device " + device);
+                    }
                 }
             }
         }

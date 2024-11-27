@@ -22,6 +22,8 @@ import android.hardware.usb.UsbManager;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.hoho.android.usbserial.driver.CdcAcmSerialDriver;
+import com.hoho.android.usbserial.driver.ProbeTable;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
@@ -51,34 +53,65 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
             holder.downloadedByteArray.setText("Size: " + card.getImageByteArray().length + " bytes");
         }
         holder.exportButton.setOnClickListener(v -> {
-            // Perform your custom action for exporting
             UsbManager manager = (UsbManager) v.getContext().getSystemService(Context.USB_SERVICE);
-            List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
+            ProbeTable customTable = new ProbeTable();
+            customTable.addProduct(0x0483, 0x374B, CdcAcmSerialDriver.class);
+            // Perform your custom action for exporting
+            UsbSerialProber Probe = new UsbSerialProber(customTable);
+
+            List<UsbSerialDriver> availableDrivers = Probe.findAllDrivers(manager);
             if (availableDrivers.isEmpty()) {
-                Toast.makeText(v.getContext(), "No USB Device Found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "No USB Driver Found", Toast.LENGTH_SHORT).show();
                 return;
             }
+            else {
+                Toast.makeText(v.getContext(), "USB Driver Found", Toast.LENGTH_SHORT).show();
+
+            }
+            // debugging purposes
+            UsbDeviceConnection connection = null;
             UsbSerialDriver driver = availableDrivers.get(0);
-            UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
+            PendingIntent usbPermissionIntent = PendingIntent.getBroadcast(v.getContext(), 0, new Intent("com.example.USB_PERMISSION"), PendingIntent.FLAG_UPDATE_CURRENT);
+
+            manager.requestPermission(driver.getDevice(), usbPermissionIntent);
+            try{
+                connection = manager.openDevice(driver.getDevice());
+            } catch(Exception e){
+                Toast.makeText(v.getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
             if (connection == null) {
                 // add UsbManager.requestPermission(driver.getDevice(), ..) handling here
                 Toast.makeText(v.getContext(), "No connection", Toast.LENGTH_SHORT).show();
                 return;
             }
+            Toast.makeText(v.getContext(), "Device Connected", Toast.LENGTH_SHORT).show();
 
             UsbSerialPort port = driver.getPorts().get(0); // Most devices have just one port (port 0)
             try {
                 port.open(connection);
+                port.setDTR(true);
                 port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
-                port.write(card.getImageByteArray(), 10000);
+            } catch (IOException e) {
+                Toast.makeText(v.getContext(), " Port Open Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            Toast.makeText(v.getContext(), "Connection Established", Toast.LENGTH_SHORT).show();
+            try {
+                port.write("hello".getBytes(), 10000);
+            } catch (IOException e) {
+                Toast.makeText(v.getContext(), " Port Write Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            Toast.makeText(v.getContext(), "Port Write Successful", Toast.LENGTH_SHORT).show();
+            try {
                 port.close();
             } catch (IOException e) {
-                Toast.makeText(v.getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), " Port Close Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
+            Toast.makeText(v.getContext(), "Port Close Successful", Toast.LENGTH_SHORT).show();
         });
 
 
     }
+
 
     @Override
     public int getItemCount() {
