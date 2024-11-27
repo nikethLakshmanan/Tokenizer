@@ -6,7 +6,7 @@ pluginManagement {
                 includeGroupByRegex("com\\.google.*")
                 includeGroupByRegex("androidx.*")
             }
-        }
+
         mavenCentral()
         gradlePluginPortal()
     }
@@ -16,8 +16,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven ( url = "https://jitpack.io" )
     }
 }
 
 rootProject.name = "Tokenizer v2"
-include(":app")
+include(":app")}

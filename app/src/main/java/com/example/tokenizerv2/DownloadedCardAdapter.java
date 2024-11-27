@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.IOException;
 import java.util.List;
 //added imports
 import android.hardware.usb.UsbDevice;
@@ -18,6 +20,11 @@ import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.content.Context;
+import android.widget.Toast;
+
+import com.hoho.android.usbserial.driver.UsbSerialDriver;
+import com.hoho.android.usbserial.driver.UsbSerialPort;
+import com.hoho.android.usbserial.driver.UsbSerialProber;
 
 
 public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAdapter.CardViewHolder> {
@@ -45,64 +52,28 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
         }
         holder.exportButton.setOnClickListener(v -> {
             // Perform your custom action for exporting
-            UsbManager usbManager = (UsbManager) v.getContext().getSystemService(Context.USB_SERVICE);
-
-            // Get the connected USB device (STM32F1 in this case)
-            UsbDevice device = null;
-            for (UsbDevice devices : usbManager.getDeviceList().values()) {
-                //if (devices.getVendorId() == 0x1234 && devices.getProductId() == 0x5678) { // Replace with your STM32F1 device criteria
-                    if(devices != null) {
-                        device = devices;
-                        break;
-                    }
-               // }
+            UsbManager manager = (UsbManager) v.getContext().getSystemService(Context.USB_SERVICE);
+            List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
+            if (availableDrivers.isEmpty()) {
+                Toast.makeText(v.getContext(), "No USB Device Found", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            UsbSerialDriver driver = availableDrivers.get(0);
+            UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
+            if (connection == null) {
+                // add UsbManager.requestPermission(driver.getDevice(), ..) handling here
+                Toast.makeText(v.getContext(), "No connection", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            if (device != null) {
-                // Request permission
-                if (!usbManager.hasPermission(device)) {
-                    PendingIntent permissionIntent = PendingIntent.getBroadcast(
-                            v.getContext(), 0, new Intent("com.example.USB_PERMISSION"), PendingIntent.FLAG_UPDATE_CURRENT
-                    );
-                    usbManager.requestPermission(device, permissionIntent);
-                    //requestUsbPermission(usbManager, device, v.getContext());
-                } else {
-                    byte[] data = card.getImageByteArray();
-                    UsbInterface usbInterface = device.getInterface(0); // Assuming single interface
-                    UsbEndpoint outputEndpoint = null;
-
-                    for (int i = 0; i < usbInterface.getEndpointCount(); i++) {
-                        UsbEndpoint endpoint = usbInterface.getEndpoint(i);
-                        if (endpoint.getType() == UsbConstants.USB_ENDPOINT_XFER_BULK && endpoint.getDirection() == UsbConstants.USB_DIR_OUT) {
-                            outputEndpoint = endpoint;
-                            break;
-                        }
-                    }
-
-                    if (outputEndpoint == null) {
-                        System.out.println("Output endpoint not found.");
-                        return;
-                    }
-
-                    UsbDeviceConnection connection = usbManager.openDevice(device);
-                    if (connection == null || !connection.claimInterface(usbInterface, true)) {
-                        System.out.println("Failed to open connection or claim interface.");
-                        return;
-                    }
-
-                    // Send the data
-                    int result = connection.bulkTransfer(outputEndpoint, data, data.length, 5000); // 5-second timeout
-                    if (result >= 0) {
-                        System.out.println("Data transfer successful: " + result + " bytes transferred.");
-                    } else {
-                        System.out.println("Data transfer failed.");
-                    }
-
-                    connection.releaseInterface(usbInterface);
-                    connection.close();
-                }
-            } else {
-                System.out.println("No USB device found.");
+            UsbSerialPort port = driver.getPorts().get(0); // Most devices have just one port (port 0)
+            try {
+                port.open(connection);
+                port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+                port.write(card.getImageByteArray(), 10000);
+                port.close();
+            } catch (IOException e) {
+                Toast.makeText(v.getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

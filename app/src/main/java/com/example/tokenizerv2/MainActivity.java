@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // For Android 12 (API 31) and above, use RECEIVER_EXPORTED flag
             registerReceiver(usbReceiver, filter, Context.RECEIVER_EXPORTED);
-        } else {
-            // For devices below Android 12, register without the export flag
-           // registerReceiver(usbReceiver, filter);
         }
 
 
