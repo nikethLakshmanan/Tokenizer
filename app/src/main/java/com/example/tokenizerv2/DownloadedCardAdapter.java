@@ -54,12 +54,12 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
         }
         holder.exportButton.setOnClickListener(v -> {
             UsbManager manager = (UsbManager) v.getContext().getSystemService(Context.USB_SERVICE);
-            ProbeTable customTable = new ProbeTable();
-            customTable.addProduct(0x0483, 0x374B, CdcAcmSerialDriver.class);
+           // ProbeTable customTable = new ProbeTable();
+           // customTable.addProduct(0x0483, 0x374B, CdcAcmSerialDriver.class);
             // Perform your custom action for exporting
-            UsbSerialProber Probe = new UsbSerialProber(customTable);
-
-            List<UsbSerialDriver> availableDrivers = Probe.findAllDrivers(manager);
+            //UsbSerialProber Probe = new UsbSerialProber(customTable);
+            List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
+           // List<UsbSerialDriver> availableDrivers = Probe.findAllDrivers(manager);
             if (availableDrivers.isEmpty()) {
                 Toast.makeText(v.getContext(), "No USB Driver Found", Toast.LENGTH_SHORT).show();
                 return;
