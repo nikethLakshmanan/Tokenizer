@@ -1,7 +1,6 @@
 package com.example.tokenizerv2;
 import android.app.PendingIntent; //added import
 import android.content.Intent; //added import
-import android.hardware.usb.UsbConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.IOException;
 import java.util.List;
 //added imports
-import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
-import android.hardware.usb.UsbEndpoint;
-import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.hoho.android.usbserial.driver.CdcAcmSerialDriver;
-import com.hoho.android.usbserial.driver.ProbeTable;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
@@ -96,7 +90,13 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
             }
             Toast.makeText(v.getContext(), "Connection Established", Toast.LENGTH_SHORT).show();
             try {
-                port.write(card.getImageByteArray(), 10000);
+                port.write(((card.getName() + "\n")).getBytes(), 1000);
+                port.write(((card.getRules() + "\n")).getBytes(), 1000);
+                port.write(((card.getType() + "\n")).getBytes(), 1000);
+                port.write(card.getPowBytes(),1000);
+                port.write(card.getTufBytes(), 1000);
+
+                // port.write(temp, 10000);
             } catch (IOException e) {
                 Toast.makeText(v.getContext(), " Port Write Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }

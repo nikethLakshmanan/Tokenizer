@@ -68,8 +68,9 @@ public class CardSearch extends Fragment {
                         power = card.getString("power");
                         toughness = card.getString("toughness");
                     }
+                    String rules = card.getString("oracle_text");
 
-                    cards.add(new Card(name, imageUrl, description, power, toughness));
+                    cards.add(new Card(name, imageUrl, description, rules, power, toughness));
 
                 }
 

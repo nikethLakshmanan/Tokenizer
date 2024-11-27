@@ -14,8 +14,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         Card card = cards.get(position);
 
         holder.cardNameTextView.setText(card.getName());
-        holder.cardDescTextView.setText(card.getDescription());
+        holder.cardDescTextView.setText(card.getType());
         holder.cardPowerTextView.setText(card.getPower());
         holder.cardToughnessTextView.setText(card.getToughness());
         if (card.getImage() != null) {
@@ -50,15 +48,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         holder.downloadButton.setOnClickListener(v-> {
             new Thread(() -> {
-                Bitmap bitmap = card.getImage();
+                Bitmap bmp = card.getImage();
+                Bitmap cropped = Bitmap.createBitmap(bmp, 56, 109, 562,
+                        412);
+                Bitmap scaled = Bitmap.createScaledBitmap(cropped, 308, 225, false);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageInByte = baos.toByteArray();
-                card.setImageByteArray(imageInByte);
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    SharedViewModel viewModel = new ViewModelProvider((FragmentActivity) v.getContext()).get(SharedViewModel.class);
-                    viewModel.addCard(card);
-                });
+//                bmp.compress(Bitmap.CompressFormat, 100, baos);
+//                byte[] imageInByte = scaled
+//                card.setImageByteArray(imageInByte);
+//                new Handler(Looper.getMainLooper()).post(() -> {
+//                    SharedViewModel viewModel = new ViewModelProvider((FragmentActivity) v.getContext()).get(SharedViewModel.class);
+//                    viewModel.addCard(card);
+//                });
 
 
 
