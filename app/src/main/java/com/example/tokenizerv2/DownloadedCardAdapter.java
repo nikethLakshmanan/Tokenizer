@@ -95,12 +95,40 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
                 port.write(((card.getType() + "\n")).getBytes(), 1000);
                 port.write(card.getPowBytes(),1000);
                 port.write(card.getTufBytes(), 1000);
-
                 // port.write(temp, 10000);
             } catch (IOException e) {
                 Toast.makeText(v.getContext(), " Port Write Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
-            Toast.makeText(v.getContext(), "Port Write Successful", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(v.getContext(), "Port Write Texts Successful", Toast.LENGTH_SHORT).show();
+            byte[] bmp = card.getImageByteArray();
+            for (int i = 0; i < bmp.length;i += 4096) {
+                int remainingBytes = bmp.length - i;
+                int currentChunkSize = Math.min(4096, remainingBytes);
+
+                // Create a chunk from the array
+                byte[] chunk = new byte[currentChunkSize];
+                System.arraycopy(bmp, i, chunk, 0, currentChunkSize);
+
+                // Write the chunk
+                try {
+                    port.write(chunk, 5000); // Timeout of 5 seconds
+                } catch (IOException e) {
+                    Toast.makeText(v.getContext(), " Port Write Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                // Optional: Read acknowledgment from the device if required
+                byte[] buffer = new byte[64]; // Adjust size for expected response
+                int bytesRead = 0; // Timeout of 5 seconds
+                try {
+                    bytesRead = port.read(buffer, 5000);
+                } catch (IOException e) {
+                    Toast.makeText(v.getContext(), " Port ReadError: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                if (bytesRead > 0) {
+                    System.out.println(bytesRead);
+                }
+            }
             try {
                 port.close();
             } catch (IOException e) {
