@@ -50,13 +50,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         holder.downloadButton.setOnClickListener(v-> {
             new Thread(() -> {
                 Bitmap bitmap = card.getImage();
-                int cropX = (bitmap.getWidth() - 308) / 2;
-                int cropY = (bitmap.getHeight()- 225)/ 2;
+//                int cropX = (bitmap.getWidth() - 308) / 2;
+//                int cropY = (bitmap.getHeight()- 225)/ 2;
                 // cropping to a 308x225 image
-                Bitmap cropped = Bitmap.createBitmap(bitmap, cropX, cropY, 308,
-                        225);
-                //Bitmap scaled = Bitmap.createScaledBitmap(cropped, 308, 225, false);
-                byte[] bmp = convertBitmapToBMP(cropped);
+//                Bitmap cropped = Bitmap.createBitmap(bitmap, cropX, cropY, 308,
+//                        225);
+                Bitmap cropped = Bitmap.createBitmap(bitmap, 49, 101, 575, 421);
+                Bitmap scaled = Bitmap.createScaledBitmap(cropped, 308, 225, true);
+                byte[] bmp = convertBitmapToBMP(scaled);
                // ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 //bmp.compress(Bitmap.CompressFormat, 100, baos);
 //                byte[] imageInByte = scaled

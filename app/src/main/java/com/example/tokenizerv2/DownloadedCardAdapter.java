@@ -59,8 +59,7 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
                 return;
             }
             else {
-                Toast.makeText(v.getContext(), "USB Driver Found", Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(v.getContext(), "USB Driver Found", Toast.LENGTH_SHORT).show();
             }
             // debugging purposes
             UsbDeviceConnection connection = null;
@@ -78,7 +77,7 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
                 Toast.makeText(v.getContext(), "No connection", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Toast.makeText(v.getContext(), "Device Connected", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(v.getContext(), "Device Connected", Toast.LENGTH_SHORT).show();
 
             UsbSerialPort port = driver.getPorts().get(0); // Most devices have just one port (port 0)
             try {
@@ -86,25 +85,48 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
                 port.setDTR(true);
                 port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
             } catch (IOException e) {
-                Toast.makeText(v.getContext(), " Port Open Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), "OpenErr: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                return;
             }
-            Toast.makeText(v.getContext(), "Connection Established", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(v.getContext(), "Connection Established", Toast.LENGTH_SHORT).show();
             try {
-                port.write(((card.getName() + "\n")).getBytes(), 1000);
-                port.write(((card.getRules() + "\n")).getBytes(), 1000);
-                port.write(((card.getType() + "\n")).getBytes(), 1000);
-                port.write(card.getPowBytes(),1000);
-                port.write(card.getTufBytes(), 1000);
-                // port.write(temp, 10000);
+                port.write(((card.getName() + "\n")).getBytes(), 5000);
+                port.write(((card.getType() + "\n")).getBytes(), 5000);
+                port.write(((card.getRules() + "\n")).getBytes(), 5000);
+                port.write(card.getPowBytes(),5000);
+                port.write(card.getTufBytes(), 5000);
             } catch (IOException e) {
-                Toast.makeText(v.getContext(), " Port Write Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), "TextErr: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                return;
             }
 
-            Toast.makeText(v.getContext(), "Port Write Texts Successful", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(v.getContext(), "Port Write Texts Successful", Toast.LENGTH_SHORT).show();
             byte[] bmp = card.getImageByteArray();
-            for (int i = 0; i < bmp.length;i += 4096) {
+            try {
+                int len = bmp.length;
+                String stringlen = Integer.toString(len) + "\n";
+                byte[] byteslen = stringlen.getBytes();
+                port.write(byteslen, 1000);
+            } catch (IOException e) {
+                Toast.makeText(v.getContext(), "LenErr: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            for (int i = 0; i < bmp.length; i += 1024) {
+                byte[] buffer = new byte[1]; // Adjust size for expected response
+                int bytesRead = 0; // Timeout of 5 seconds
+                try {
+                    bytesRead = port.read(buffer, 1000000);
+                } catch (IOException e) {
+                    Toast.makeText(v.getContext(), "AkErr: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (bytesRead > 0) {
+                    System.out.println(bytesRead);
+                }
+
                 int remainingBytes = bmp.length - i;
-                int currentChunkSize = Math.min(4096, remainingBytes);
+                int currentChunkSize = Math.min(1024, remainingBytes);
 
                 // Create a chunk from the array
                 byte[] chunk = new byte[currentChunkSize];
@@ -114,25 +136,15 @@ public class DownloadedCardAdapter extends RecyclerView.Adapter<DownloadedCardAd
                 try {
                     port.write(chunk, 5000); // Timeout of 5 seconds
                 } catch (IOException e) {
-                    Toast.makeText(v.getContext(), " Port Write Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-                // Optional: Read acknowledgment from the device if required
-                byte[] buffer = new byte[64]; // Adjust size for expected response
-                int bytesRead = 0; // Timeout of 5 seconds
-                try {
-                    bytesRead = port.read(buffer, 5000);
-                } catch (IOException e) {
-                    Toast.makeText(v.getContext(), " Port ReadError: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                if (bytesRead > 0) {
-                    System.out.println(bytesRead);
+                    Toast.makeText(v.getContext(), "ImgErr: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
                 }
             }
             try {
                 port.close();
             } catch (IOException e) {
                 Toast.makeText(v.getContext(), " Port Close Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                return;
             }
             Toast.makeText(v.getContext(), "Port Close Successful", Toast.LENGTH_SHORT).show();
         });
