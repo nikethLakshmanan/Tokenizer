@@ -27,7 +27,7 @@ public class CardSearch extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             String query = params[0];
-            String urlString = "https://api.scryfall.com/cards/search?q=" + query;
+            String urlString = "https://api.scryfall.com/cards/search?q=" + query + "+type%3Atoken+(game%3Apaper)+include%3Aextras";
 
             try {
                 URL url = new URL(urlString);
@@ -61,6 +61,7 @@ public class CardSearch extends Fragment {
                     String name = card.getString("name");
                     displayText.append("- ").append(name).append("\n");
                     String imageUrl = card.getJSONObject("image_uris").getString("large");
+                    String artUrl = card.getJSONObject("image_uris").getString("art_crop");
                     String description = card.getString("type_line");
                     String power = "N/A";
                     String toughness = "N/A";
@@ -70,7 +71,7 @@ public class CardSearch extends Fragment {
                     }
                     String rules = card.getString("oracle_text");
 
-                    cards.add(new Card(name, imageUrl, description, rules, power, toughness));
+                    cards.add(new Card(name, imageUrl, artUrl, description, rules, power, toughness));
 
                 }
 

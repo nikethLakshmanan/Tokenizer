@@ -9,21 +9,17 @@ public class Card {
     private String power;
     private String toughness;
     private String imageUrl;
+    private String artUrl;
     private Bitmap image;
+
+    private Bitmap art;
     private byte[] imageByteArray;
 
 
-    public Card(String name, String imageUrl, String type, String power, String toughness) {
+    public Card(String name, String imageUrl, String artUrl, String type, String rules, String power, String toughness) {
         this.name = name;
         this.imageUrl = imageUrl;
-        this.type = type;
-        this.power = power;
-        this.toughness = toughness;
-        this.rulesText = "";
-    }
-    public Card(String name, String imageUrl, String type, String rules, String power, String toughness) {
-        this.name = name;
-        this.imageUrl = imageUrl;
+        this.artUrl = artUrl;
         this.type = type;
         this.rulesText = rules;
         this.power = power;
@@ -60,9 +56,13 @@ public class Card {
         return imageUrl;
     }
 
+    public String getArtUrl() { return artUrl; }
+
     public void setImage(Bitmap image) {
         this.image = image;
     }
+
+    public void setArt(Bitmap image) { this.art = image; }
 
     public Bitmap getImage() {
         return image;
