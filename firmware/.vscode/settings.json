@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "*.txt": "plaintext",
+    "*.tcc": "cpp",
+    "memory_resource": "cpp",
+    "functional": "cpp",
+    "numeric": "cpp"
+  }
+}
