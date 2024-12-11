@@ -2,21 +2,21 @@
 
 ## Table of Contents
 
-- [9/17/2024 - Prep for First TA Meeting](<#9/17/2024 - Prep for First TA Meeting>)
-- [10/02/2024 - Component Search](<#10/02/2024 - Component Search>)
-- [10/09/2024 - PCB Design Day 1](<#10/09/2024 - PCB Design Day 1>)
-- [10/14/2024 - Testing Screen](<#10/14/2024 - Testing Screen>)
-- [10/20/2024 - PCB Design Day 2](<#10/20/2024 - PCB Design Day 2>)
-- [10/31/2024 - Reading Image from SD](<#10/31/2024 - Reading Image from SD>)
-- [11/05/2024 - Order PCB and Parts](<#11/05/2024 - Order PCB and Parts>)
-- [11/18/2024 - Assembly Day 1](<#11/18/2024 - Assembly Day 1>)
-- [11/19/2024 - Assembly Day 2](<#11/19/2024 - Assembly Day 2>)
-- [11/20/2024 - Device Testing](<#11/20/2024 - Device Testing>)
-- [11/23/2024 - Battery Power Test](<#11/23/2024 - Battery Power Test>)
-- [11/24/2024 - Firmware Development and Enclosure Design](<#11/24/2024 - Firmware Development and Enclosure Design>)
-- [11/25/2024 - Battery Charger Replacement and Enclosure Printing](<#11/25/2024 - Battery Charger Replacement and Enclosure Printing>)
-- [11/26/2024 - App Testing](<#11/26/2024 - App Testing>)
-- [12/02/2024 - Final Testing](<#12/02/2024 - Final Testing>)
+- [9/17/2024 - Prep for First TA Meeting](<#9172024---prep-for-first-ta-meeting>)
+- [10/02/2024 - Component Search](<#10022024---component-search>)
+- [10/09/2024 - PCB Design Day 1](<#10092024---pcb-design-day-1>)
+- [10/14/2024 - Testing Screen](<#10142024---testing-screen>)
+- [10/20/2024 - PCB Design Day 2](<#10202024---pcb-design-day-2>)
+- [10/31/2024 - Reading Image from SD](<#10312024---reading-image-from-sd>)
+- [11/05/2024 - Order PCB and Parts](<#11052024---order-pcb-and-parts>)
+- [11/18/2024 - Assembly Day 1](<#11182024---assembly-day-1>)
+- [11/19/2024 - Assembly Day 2](<#11192024---assembly-day-2>)
+- [11/20/2024 - Device Testing](<#11202024---device-testing>)
+- [11/23/2024 - Battery Power Test](<#11232024---battery-power-test>)
+- [11/24/2024 - Firmware Development and Enclosure Design](<#11242024---firmware-development-and-enclosure-design>)
+- [11/25/2024 - Battery Charger Replacement and Enclosure Printing](<#11252024---battery-charger-replacement-and-enclosure-printing>)
+- [11/26/2024 - App Testing](<#11262024---app-testing>)
+- [12/02/2024 - Final Testing](<#12022024---final-testing>)
 
 ## 9/17/2024 - Prep for First TA Meeting
 
