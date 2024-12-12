@@ -33,13 +33,20 @@ After long, we broke ground with the app. Created a repo and used a default 3-pa
 
 Achieved basic search functionality in the application using the Scryfall API. Used the user’s query from a search box and then appended search to an API call, pulled and unpackaged data to then neatly display it onto the screen.
 
+![Code Snippet](./One.png)
+
+
 ## 10/14/24
 
 Added on to this functionality by creating a LinearLayout containing a custom made window containing a couple of TextViews and an image. 
 
+![Code Snippet](./Two.png)
+
 ## 10/23/24
 
 Whole new UI added into this and have a fully functional downloads tab as well as search tab. Maintain downloaded tokens in cart ready for exporting in the downloads tab, displaying the number of bytes in the token.
+
+![Emulator](./three.png)
 
 
 ## 11/26/2024
