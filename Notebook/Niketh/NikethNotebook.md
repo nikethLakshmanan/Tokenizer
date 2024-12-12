@@ -2,7 +2,23 @@
 
 ## Table of Contents
 
-- [9/03/2024 ](<#90324---prep-for-first-ta-meeting>)
+- [9/03/2024 ](<#90324>)
+- [9/12/2024 ](<#91224>)
+- [9/17/2024 ](<#91724>)
+- [9/19/2024 ](<#91924>)
+- [9/23/2024 ](<#92324>)
+- [10/02/2024 ](<#100224>)
+- [10/08/2024 ](<#100824>)
+- [10/12/2024 ](<#101224>)
+- [10/14/2024 ](<#101424>)
+- [10/23/2024 ](<#102324>)
+- [11/26/2024 ](<#112624>)
+- [12/04/2024 ](<#120424>)
+- [12/06/2024 ](<#120624>)
+- [12/09/2024 ](<#120924>)
+- [12/11/0224 ](<#121124>)
+
+
 
 # 9/03/24
 
@@ -53,23 +69,23 @@ Whole new UI added into this and have a fully functional downloads tab as well a
 ![Emulator](./three.png)
 
 
-## 11/26/2024
+## 11/26/24
 
 Got the USB data transfer working thanks to Nathan. I had configured a byte array ready to be loaded onto the device but Nathan found that didn’t work so adopted a different technique in breaking it into chunks and then exporting the image.
 
-## 12/4/2024
+## 12/04/24
 
 Finished the project for the most part, some glossing over to do. Created a .ppt and started working on it. Had our Final Demo. Went really well, everything functioned as intended and we were able to answer all of our questions.
 
-## 12/06/2024
+## 12/06/24
 
 Mock Demo, presented to a non-technical person and got a lot of feedback about slides, delivery, and the overall presentation. Took those tips and fixed a lot of the slides and worked on delivery after the demo.
 
-## 12/09/2024
+## 12/09/24
 
 Final Demo! Went really well in my opinion. Could have done better in going through some of the information but we took the tips given to our mock demo very well and did great.
 
-## 12/11/2024
+## 12/11/24
 
 Writing this right now!
 
