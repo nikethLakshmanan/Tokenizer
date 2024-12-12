@@ -1,6 +1,10 @@
 # Niketh Worklog
 
-## 9/03/24
+## Table of Contents
+
+- [9/03/2024 ](<#90324---prep-for-first-ta-meeting>)
+
+# 9/03/24
 
 First brainstorm of Tokenizer, Jackson mentioned that this has been a passion project of his for a while now, and after getting our prior proposals rejected, Nathan and I were completely okay to go for this, even though we had no clue about the what the project actually solved since neither of us played Magic the Gathering.
 
